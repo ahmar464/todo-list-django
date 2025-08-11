@@ -1,4 +1,9 @@
 <h2>My Tasks</h2>
+<form action="{% url 'logout' %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+
 <a href="{% url 'task_create' %}">+ Add Task</a>
 <ul>
 {% for task in tasks %}
