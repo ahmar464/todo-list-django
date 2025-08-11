@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.core.mail import send_mail
 from django.conf import settings
+from .forms import CustomUserCreationForm  # <-- import our custom form
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
@@ -17,7 +17,7 @@ def signup(request):
                 [user.email],
                 fail_silently=False,
             )
-            return redirect('task_list')  # Adjust this to your task list view name
+            return redirect('task_list')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'accounts/signup.html', {'form': form})
