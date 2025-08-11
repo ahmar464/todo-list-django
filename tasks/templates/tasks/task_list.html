@@ -1,18 +1,19 @@
 <h2>My Tasks</h2>
-<form action="{% url 'logout' %}" method="post" style="display:inline;">
-    {% csrf_token %}
-    <button type="submit">Logout</button>
-</form>
-
 <a href="{% url 'task_create' %}">+ Add Task</a>
 <ul>
 {% for task in tasks %}
-    <li>
-        {{ task.title }} - {{ task.status }}
-        <a href="{% url 'task_update' task.pk %}">Edit</a>
-        <a href="{% url 'task_delete' task.pk %}">Delete</a>
-    </li>
+  <li>
+    {{ task.title }} —
+    {% if task.deadline %}
+      {{ task.deadline|date:"M d, Y H:i" }}
+      {% if task.is_overdue %} <strong>(Overdue)</strong>{% endif %}
+    {% else %}
+      No deadline
+    {% endif %}
+    <a href="{% url 'task_update' task.pk %}">Edit</a>
+    <a href="{% url 'task_delete' task.pk %}">Delete</a>
+  </li>
 {% empty %}
-    <li>No tasks yet</li>
+  <li>No tasks yet</li>
 {% endfor %}
 </ul>
